@@ -16,13 +16,16 @@ func Run(conf *config.Config, db *sqlx.DB) error {
 		WriteTimeout: 120 * time.Second,
 	})
 
-	initRoutes(app)
+	appConfig := newApplicationConfig(conf, db)
+	initRoutes(app, appConfig)
 
 	return app.Listen(addr)
 }
 
-func initRoutes(app *fiber.App) {
+func initRoutes(app *fiber.App, appConfig *applicationConfig) {
 	app.Get("/health", healthEndpoint())
+
+	app.Get("/v1/query", appConfig.QueryAnalyzerHandler.GetQueries)
 }
 
 func healthEndpoint() func(ctx *fiber.Ctx) error {
