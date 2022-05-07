@@ -8,6 +8,7 @@ import (
 
 type applicationConfig struct {
 	config               *config.Config
+	db                   *sqlx.DB
 	QueryAnalyzerHandler *QueryAnalyzerHandler
 }
 

@@ -11,8 +11,8 @@ type Model struct {
 
 type DatabaseQueryInfo struct {
 	Model
-	Query           string `db:"query"`
-	ExecutionTimeMs uint   `db:"execution_time_ms"`
+	Query           string `db:"query" json:"query"`
+	ExecutionTimeMs uint   `db:"execution_time_ms" json:"execution_time_ms"`
 }
 
 type QueryRequest struct {

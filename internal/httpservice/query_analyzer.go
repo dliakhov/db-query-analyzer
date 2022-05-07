@@ -27,7 +27,6 @@ func (h *QueryAnalyzerHandler) GetQueries(ctx *fiber.Ctx) error {
 		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
 			"message": "something happened during parsing query",
 		})
-
 	}
 
 	errors := h.validateStruct(queryRequest)
