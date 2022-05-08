@@ -30,7 +30,7 @@ func (r *QueryAnalyzerRepositoryImpl) GetDatabaseQueryInfo(queryRequest models.Q
 	}
 	selectQuery += ` deleted_at IS NULL`
 
-	if strings.ToLower(queryRequest.OrderBy) == "desc" {
+	if strings.ToLower(queryRequest.ExecutionTimeSort) == "desc" {
 		selectQuery += ` ORDER BY execution_time_ms DESC`
 	} else {
 		selectQuery += ` ORDER BY execution_time_ms ASC`

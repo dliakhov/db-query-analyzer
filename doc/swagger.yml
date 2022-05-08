@@ -1,0 +1,69 @@
+openapi: 3.0.2
+info:
+  title: db-query-analyzer
+  description: Every operation may return a **500 Internal Server Error** response.
+  version: 1.0.0
+
+paths:
+  /v1/query:
+    get:
+      summary: "Get queries"
+      parameters:
+        - in: query
+          name: query_type
+          schema: { type: string, enum: [ "SELECT","INSERT","DELETE","UPDATE" ] }
+          required: false
+        - in: query
+          name: execution_time_sort
+          schema: { type: string, enum: [ "asc","desc" ] }
+          required: false
+        - in: query
+          name: page
+          schema: { type: integer }
+          required: true
+        - in: query
+          name: size
+          schema: { type: integer }
+          required: true
+      responses:
+        200:
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: array
+                    items: { $ref: '#/components/schemas/Query' }
+        400: { $ref: '#/components/responses/BadRequest' }
+
+
+components:
+  schemas:
+    Query:
+      type: object
+      properties:
+        query: { type: string }
+        execution_time_ms: { type: number }
+
+    ErrorResponse:
+      type: object
+      required: [ code, message ,field ]
+      properties:
+        code: { type: integer }
+        message: { type: string }
+        field: { type: string }
+      example:
+        code: 400
+        message: "Invalid parameter 'some_param'"
+        field: "some_param"
+
+
+  responses:
+    BadRequest:
+      description: Bad Request. The response message will contain further hints.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

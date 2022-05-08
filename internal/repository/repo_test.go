@@ -45,10 +45,10 @@ func TestQueryAnalyzerRepositoryImpl_GetDatabaseQueryInfo(t *testing.T) {
 			},
 			args: args{
 				queryRequest: models.QueryRequest{
-					Page:      1,
-					Size:      5,
-					QueryType: "",
-					OrderBy:   "",
+					Page:              1,
+					Size:              5,
+					QueryType:         "",
+					ExecutionTimeSort: "",
 				},
 			},
 			want: []models.DatabaseQueryInfo{
@@ -85,10 +85,10 @@ func TestQueryAnalyzerRepositoryImpl_GetDatabaseQueryInfo(t *testing.T) {
 			},
 			args: args{
 				queryRequest: models.QueryRequest{
-					Page:      2,
-					Size:      10,
-					QueryType: "insert",
-					OrderBy:   "",
+					Page:              2,
+					Size:              10,
+					QueryType:         "insert",
+					ExecutionTimeSort: "",
 				},
 			},
 			want: []models.DatabaseQueryInfo{
@@ -125,10 +125,10 @@ func TestQueryAnalyzerRepositoryImpl_GetDatabaseQueryInfo(t *testing.T) {
 			},
 			args: args{
 				queryRequest: models.QueryRequest{
-					Page:      2,
-					Size:      10,
-					QueryType: "insert",
-					OrderBy:   "desc",
+					Page:              2,
+					Size:              10,
+					QueryType:         "insert",
+					ExecutionTimeSort: "desc",
 				},
 			},
 			want: []models.DatabaseQueryInfo{
