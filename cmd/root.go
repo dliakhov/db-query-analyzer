@@ -15,10 +15,12 @@ func NewCLI() *cobra.Command {
 		Use: "db-query-analyzer",
 	}
 
-	cli.AddCommand(newHttpService())
-
 	conf = &config.Config{}
 	_, err := flags.Parse(conf)
+
+	cli.AddCommand(newHttpService())
+	cli.AddCommand(newMigrateUpCommand())
+
 	if err != nil {
 		log.Fatalf("Error during parsing configuration: %v", err)
 	}

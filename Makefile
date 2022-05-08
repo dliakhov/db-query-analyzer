@@ -3,5 +3,8 @@
 start_docker_compose:
 	docker compose up -d
 
-run:
+migrate_db:
+	go run main.go migrate
+
+run: migrate_db
 	go run main.go httpservice
