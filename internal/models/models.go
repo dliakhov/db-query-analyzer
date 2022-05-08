@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Model struct {
 	ID        uint       `db:"id" json:"-"`
@@ -18,6 +20,6 @@ type DatabaseQueryInfo struct {
 type QueryRequest struct {
 	Page      uint   `query:"page" validate:"required,min=1"`
 	Size      uint   `query:"size" validate:"required,min=1"`
-	QueryType string `query:"query_type" validate:"required,oneof=SELECT INSERT UPDATE DELETE select insert update delete"`
-	OrderBy   string `query:"order_by" validate:"oneof=asc desc ASC DESC"`
+	QueryType string `query:"query_type" validate:"omitempty,oneof=SELECT INSERT UPDATE DELETE select insert update delete"`
+	OrderBy   string `query:"order_by" validate:"omitempty,oneof=asc desc ASC DESC"`
 }

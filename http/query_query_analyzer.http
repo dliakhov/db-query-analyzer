@@ -4,3 +4,9 @@ GET http://localhost:8080/health
 ###
 GET http://localhost:8080/v1/query?query_type=insert&page=1&size=10&order_by=asc
 
+###
+GET http://localhost:8080/v1/query?page=1&size=10&order_by=asc
+
+###
+GET http://localhost:8080/v1/query?page=1&size=10
+

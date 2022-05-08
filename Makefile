@@ -1,10 +1,7 @@
-.PHONY: run migrateup addmigration
+.PHONY: run start_docker_compose
 
-start_db:
+start_docker_compose:
 	docker compose up -d
 
-migrate_db: start_db
-	go run main.go migrate
-
-run: migrate_db
+run:
 	go run main.go httpservice

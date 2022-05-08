@@ -1,6 +1,7 @@
 package httpservice
 
 import (
+	"github.com/dliakhov/db-query-analyzer/internal/httpservice/rest"
 	"github.com/dliakhov/db-query-analyzer/internal/models"
 	"github.com/dliakhov/db-query-analyzer/internal/repository"
 	"github.com/go-playground/validator/v10"
@@ -24,14 +25,12 @@ func (h *QueryAnalyzerHandler) GetQueries(ctx *fiber.Ctx) error {
 	var queryRequest models.QueryRequest
 	err := ctx.QueryParser(&queryRequest)
 	if err != nil {
-		return ctx.Status(http.StatusBadRequest).JSON(fiber.Map{
-			"message": "something happened during parsing query",
-		})
+		return err
 	}
 
 	errors := h.validateStruct(queryRequest)
 	if errors != nil {
-		return ctx.Status(http.StatusBadRequest).JSON(errors)
+		return rest.NewValidationError(errors)
 	}
 
 	queries, err := h.repo.GetDatabaseQueryInfo(queryRequest)
@@ -43,19 +42,13 @@ func (h *QueryAnalyzerHandler) GetQueries(ctx *fiber.Ctx) error {
 
 var validate = validator.New()
 
-type ErrorResponse struct {
-	FailedField string
-	Tag         string
-	Value       string
-}
-
-func (h *QueryAnalyzerHandler) validateStruct(queryRequest models.QueryRequest) []*ErrorResponse {
-	var errors []*ErrorResponse
+func (h *QueryAnalyzerHandler) validateStruct(queryRequest models.QueryRequest) []*rest.ErrorResponse {
+	var errors []*rest.ErrorResponse
 	err := validate.Struct(queryRequest)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
-			var element ErrorResponse
-			element.FailedField = err.StructNamespace()
+			var element rest.ErrorResponse
+			element.FailedField = err.Field()
 			element.Tag = err.Tag()
 			element.Value = err.Param()
 			errors = append(errors, &element)

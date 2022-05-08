@@ -10,7 +10,7 @@ CREATE TABLE query_analyzer.database_query_info
 );
 
 CREATE INDEX idx_database_query_info_query ON query_analyzer.database_query_info (query);
-CREATE INDEX idx_database_query_info_delete ON query_analyzer.database_query_info (deleted_at);
+CREATE INDEX idx_database_query_info_deleted_at ON query_analyzer.database_query_info (deleted_at);
 
 -- insert test data
 INSERT INTO query_analyzer.database_query_info (created_at, updated_at, deleted_at, query, execution_time_ms)

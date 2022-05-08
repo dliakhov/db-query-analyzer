@@ -3,6 +3,7 @@ package httpservice
 import (
 	"github.com/dliakhov/db-query-analyzer/config"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/jmoiron/sqlx"
 	"net"
 	"net/http"
@@ -14,9 +15,13 @@ func Run(conf *config.Config, db *sqlx.DB) error {
 	app := fiber.New(fiber.Config{
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 120 * time.Second,
+		ErrorHandler: ErrorHandler,
 	})
 
 	appConfig := newApplicationConfig(conf, db)
+
+	app.Use(logger.New())
+
 	initRoutes(app, appConfig)
 
 	return app.Listen(addr)
